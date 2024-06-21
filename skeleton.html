@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./skeleton.css" />
+  </head>
+  <body>
+    <main>
+      <section>
+        <div class="grid"></div>
+        <template id="grid-template">
+          <div class="profile">
+            <div class="image-container">
+              <div id="skeleton" class="skeleton"></div>
+              <img src="" alt="" class="header-img" />
+              <div class="title">
+                <div class="skeleton-text-title"></div>
+                <div class="skeleton-text"></div>
+              </div>
+            </div>
+            <div class="text-container">
+              <div class="skeleton-text"></div>
+              <div class="skeleton-text"></div>
+              <div class="skeleton-text"></div>
+              <div class="skeleton-text"></div>
+              <div class="skeleton-text"></div>
+              <div class="skeleton-text"></div>
+            </div>
+          </div>
+        </template>
+      </section>
+    </main>
+  </body>
+  <script>
+        document.addEventListener("DOMContentLoaded", async() => {
+          const grid = document.querySelector(".grid");
+          const gridTemplate = document.getElementById("grid-template");
+          for (let i = 0; i < 10; i++) {
+            grid.append(gridTemplate.content.cloneNode(true));
+          }
+
+        function createProfile(name,text,url,body) {
+            // Create the main profile div
+            const profile = document.createElement("div");
+            profile.className = "profile";
+
+            // Create the image container div
+            const imageContainer = document.createElement("div");
+            imageContainer.className = "image-container";
+
+            // Create the image element
+            const img = document.createElement("img");
+            img.className = "header-img";
+            img.src = url;
+
+            // Create the title div
+            const title = document.createElement("div");
+            title.className = "title";
+
+            // Create the skeleton text title div
+            const skeletonTextTitle = document.createElement("div");
+            skeletonTextTitle.className = "title-name";
+            skeletonTextTitle.innerHTML = name;
+            const skeletonText = document.createElement("div");
+            skeletonText.className = "title-text";
+            skeletonText.innerHTML = text;
+
+            // Append skeletonTextTitle and skeletonText to the title div
+            title.appendChild(skeletonTextTitle);
+            title.appendChild(skeletonText);
+
+            // Append skeleton, img, and title to the image container div
+            imageContainer.appendChild(img);
+            imageContainer.appendChild(title);
+
+            // Create the text container div
+            const textContainer = document.createElement("div");
+            textContainer.className = "text-container";
+            textContainer.innerHTML=body;
+
+            profile.append(imageContainer);
+            profile.append(textContainer);
+
+            return profile;
+          }
+
+        try{
+            const [postsResponse, usersResponse, photosResponse] = await Promise.all([
+            fetch('https://jsonplaceholder.typicode.com/posts'),
+            fetch('https://jsonplaceholder.typicode.com/users'),
+            fetch('https://jsonplaceholder.typicode.com/photos')
+            ]);
+
+            let posts = await postsResponse.json();
+            let users = await usersResponse.json();
+            let photos = await photosResponse.json();
+
+
+            posts=posts.slice(0,10);
+            users=users.slice(0,10);
+            photos=photos.slice(0,10);
+
+            setTimeout(()=>{
+                grid.innerHTML ='';
+                for(let i=0;i<10;i++){
+                    const profile = createProfile(users[i].name,users[i].company.bs,photos[i].url,posts[i].body)
+                    grid.append(profile);
+                }
+            },3000);
+        }
+        catch (err) {
+            console.error('Error fetching data:', err);
+        } 
+        });
+  </script>
+</html>
