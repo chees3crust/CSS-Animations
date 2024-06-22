@@ -1,1 +1,1 @@
-# Skeleton-Loading-Cards
+# CSS Animations practice
