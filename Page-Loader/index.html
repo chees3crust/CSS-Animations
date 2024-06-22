@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="counter">100</div>
+
+    <div class="overlay">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+   <div class="container">
+    <nav>
+        <a href="#">My Work</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="header">
+        <div class="header-letters">M</div>
+        <div class="header-letters">E</div>
+        <div class="header-letters">M</div>
+        <div class="header-letters">O</div>
+        <div class="header-letters">R</div>
+        <div class="header-letters">I</div>
+        <div class="header-letters">E</div>
+        <div class="header-letters">S</div>
+    </div>
+
+    <div class="hero">
+        <img src="https://plus.unsplash.com/premium_photo-1669876271015-55e215f60bc4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    </div>
+
+   </div>
+
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+
+<script>
+    function startLoader(){
+
+        let counter = document.querySelector('.counter');
+        let cur_val = 0;
+
+        function updateCounter(){
+            if (cur_val===100){
+                return;
+            }
+            cur_val+= Math.floor(Math.random()*10)+1;
+
+            if(cur_val>100){
+                cur_val=100;
+            }
+
+            counter.textContent=cur_val;
+
+            let delay = Math.floor(Math.random()*200)+50;
+
+            setTimeout(updateCounter,delay);
+        }
+
+        updateCounter();
+    }
+
+    startLoader();
+
+    gsap.to(".counter",0.25,{
+        delay:3.5,
+        opacity:0,
+    });
+
+    gsap.to(".bar",1.5,{
+        delay:3.5,
+        height:0,
+        stagger:{
+            amount:0.5,
+        },
+        ease:"power4.inOut",
+    });
+
+    gsap.from(".header-letters",1.5,{
+        delay:4,
+        y:400,
+        stagger:{
+            amount:0.5,
+        },
+        ease:"power4.inOut",
+    });
+
+    gsap.from(".hero",2,{
+        delay:4.5,
+        y:700,
+        ease:"power4.inOut",
+    });
+
+</script>
+
+</html>
